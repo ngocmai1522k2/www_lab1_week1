@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>ListRoleAccount</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -19,6 +19,7 @@
 <%
     Account acc = (Account) session.getAttribute("accountLogin");
     List<Role> listRole = (List<Role>) session.getAttribute("listRole");
+    String grant_accessLogin = session.getAttribute("grant_accessLogin").toString();
 %>
 <h3 style="font-family: SansSerif,sans-serif; margin: 0 auto">Welcome: <%= acc.getFull_name() %> </h3>
 <!-- Menu -->
@@ -26,8 +27,9 @@
     <ul>
         <li><a href="login?action=info">Information Account</a></li>
         <li><a href="insert_account.jsp">Add account</a></li>
-        <li><a href="login?action=listAllAccount">List Account</a></li>
-        <li><a href="#">Grant Access</a></li>
+        <% if(grant_accessLogin.equals("admin")){%>
+            <li><a href="login?action=listAllAccount">List Account</a></li>
+        <%}%>
         <li><a href="index.jsp">Log out</a></li>
     </ul>
 </div>

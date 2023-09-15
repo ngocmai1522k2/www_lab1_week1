@@ -22,6 +22,7 @@ import java.util.List;
 public class ControllerServlet extends HttpServlet {
     private final AccountRepository accountRepository = new AccountRepository();
     private final RoleRepository roleRepository = new RoleRepository();
+    private final GrantAccessRepository grantAccessRepository = new GrantAccessRepository();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
@@ -90,6 +91,16 @@ public class ControllerServlet extends HttpServlet {
                 RequestDispatcher rd = req.getRequestDispatcher("/list_role.jsp");
                 rd.forward(req,resp);
                 break;
+            case "listAllAccount":
+                try {
+                    Account loggedInAccount = (Account) session.getAttribute("accountLogin");
+                    List<Account> listAccount = accountRepository.getAllAccountExcludingLoggedInAccount(loggedInAccount.getAccount_id());
+                    session.setAttribute("listAccount", listAccount);
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                req.getRequestDispatcher("/list_account.jsp").forward(req,resp);
+                break;
         }
     }
 
@@ -101,6 +112,8 @@ public class ControllerServlet extends HttpServlet {
         if(accountRepository.login(email,password).isPresent()){
             url = "/dashboard.jsp";
             session.setAttribute("accountLogin", accountRepository.login(email,password).get());
+            Account acc = (Account) session.getAttribute("accountLogin");
+            session.setAttribute("grant_accessLogin", grantAccessRepository.getRoleOfGrantAccessLoginById(acc.getAccount_id()));
         }else{
             resp.setContentType("text/html");
             url = "/index.jsp";

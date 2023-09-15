@@ -16,6 +16,7 @@
 <body>
 <%
     Account acc = (Account) session.getAttribute("accountLogin");
+    String grant_accessLogin = session.getAttribute("grant_accessLogin").toString();
 %>
 <h3 style="font-family: SansSerif,sans-serif; margin: 0 auto">Welcome: <%= acc.getFull_name() %> </h3>
 <!-- Menu -->
@@ -23,8 +24,9 @@
     <ul>
         <li><a href="login?action=info" methods="get">Information Account</a></li>
         <li><a href="login?action=listRole">List role</a></li>
-        <li><a href="login?action=listAllAccount">List Account</a></li>
-        <li><a href="#">Grant Access</a></li>
+        <% if(grant_accessLogin.equals("admin")){%>
+            <li><a href="login?action=listAllAccount">List Account</a></li>
+        <%}%>
         <li><a href="index.jsp">Log out</a></li>
     </ul>
 </div>

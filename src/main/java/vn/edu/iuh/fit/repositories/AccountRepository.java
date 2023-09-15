@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class AccountRepository {
@@ -89,4 +91,20 @@ public class AccountRepository {
         }
         return Optional.empty();
     }
+
+    public List<Account> getAllAccountExcludingLoggedInAccount(String id) throws SQLException, ClassNotFoundException {
+        List<Account> listAccount = new ArrayList<>();
+        Connection connection;
+        connection = ConnectDB.getInstance().getConnection();
+        String sql = "SELECT * FROM account WHERE account_id <> ? ";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, id);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            listAccount.add(new Account(rs.getString("account_id"), rs.getString("full_name"), rs.getString("password"), rs.getString("email"), rs.getString("phone"), rs.getInt("status")));
+        }
+        return listAccount;
+
+    }
+
 }
