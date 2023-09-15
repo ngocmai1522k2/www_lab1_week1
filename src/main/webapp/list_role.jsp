@@ -1,4 +1,6 @@
-<%@ page import="vn.edu.iuh.fit.models.Account" %><%--
+<%@ page import="vn.edu.iuh.fit.models.Account" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.iuh.fit.models.Role" %><%--
   Created by IntelliJ IDEA.
   User: lethi
   Date: 9/14/2023
@@ -16,40 +18,42 @@
 <body>
 <%
     Account acc = (Account) session.getAttribute("accountLogin");
+    List<Role> listRole = (List<Role>) session.getAttribute("listRole");
 %>
 <h3 style="font-family: SansSerif,sans-serif; margin: 0 auto">Welcome: <%= acc.getFull_name() %> </h3>
 <!-- Menu -->
 <div class="menu">
     <ul>
+        <li><a href="login?action=info">Information Account</a></li>
         <li><a href="insert_account.jsp">Add account</a></li>
-        <li><a href="#">List role</a></li>
+        <li><a href="login?action=listAllAccount">List Account</a></li>
         <li><a href="#">Grant Access</a></li>
         <li><a href="index.jsp">Log out</a></li>
     </ul>
 </div>
 <!-- Nội dung chính -->
 <div class="container-dashboard">
-    <h1>Information Of YOU</h1>
+    <h1>List Role Of Your Account</h1>
     <table>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Full Name </th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Phone</th>
+            <th>Role ID</th>
+            <th> Name </th>
+            <th>Description</th>
             <th>Status</th>
         </tr>
         </thead>
         <tbody>
+        <%
+            for(Role r : listRole){
+        %>
         <tr>
-            <td><%=acc.getAccount_id()%></td>
-            <td><%=acc.getFull_name()%></td>
-            <td><%=acc.getEmail()%></td>
-            <td><%=acc.getPassword()%></td>
-            <td><%=acc.getPhone()%></td>
-            <td><%=acc.getStatus()%></td>
+            <td><%=r.getRole_id()%></td>
+            <td><%=r.getRole_name()%></td>
+            <td><%=r.getDescription()%></td>
+            <td><%=r.getStatus()%></td>
         </tr>
+        <%}%>
 
         </tbody>
     </table>

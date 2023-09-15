@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.edu.iuh.fit.models.Account;
+import vn.edu.iuh.fit.models.Role;
 import vn.edu.iuh.fit.repositories.AccountRepository;
 import vn.edu.iuh.fit.repositories.GrantAccessRepository;
 import vn.edu.iuh.fit.repositories.RoleRepository;
@@ -15,10 +16,12 @@ import vn.edu.iuh.fit.repositories.RoleRepository;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/login")
 public class ControllerServlet extends HttpServlet {
     private final AccountRepository accountRepository = new AccountRepository();
+    private final RoleRepository roleRepository = new RoleRepository();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
@@ -68,6 +71,7 @@ public class ControllerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(true);
         String action = req.getParameter("action");
         switch (action){
             case "info":
@@ -75,7 +79,16 @@ public class ControllerServlet extends HttpServlet {
                 requestDispatcher.forward(req,resp);
                 break;
             case "listRole":
+                Account accountLogin = (Account) session.getAttribute("accountLogin");
+                try {
+                    List<Role> listRoleAccount = roleRepository.getListRoleForAccount(accountLogin.getAccount_id());
+                    session.setAttribute("listRole",listRoleAccount);
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
 
+                RequestDispatcher rd = req.getRequestDispatcher("/list_role.jsp");
+                rd.forward(req,resp);
                 break;
         }
     }

@@ -22,7 +22,8 @@
 <div class="menu">
     <ul>
         <li><a href="insert_account.jsp">Add account</a></li>
-        <li><a href="#">List role</a></li>
+        <li><a href="login?action=listRole">List role</a></li>
+        <li><a href="login?action=listAllAccount">List Account</a></li>
         <li><a href="#">Grant Access</a></li>
         <li><a href="index.jsp">Log out</a></li>
     </ul>
