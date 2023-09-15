@@ -1,0 +1,133 @@
+#container {
+    width: 50%; /* Độ rộng của khung chứa form */
+    margin: 0 auto; /* Để căn giữa form theo chiều ngang */
+    padding: 20px;
+}
+#formLogin{
+    width: 300px;
+    height: 300px;
+    margin: 50px auto;
+    border: 1px solid #d4d3d9;
+    border-radius: 20px;
+    text-align: center;
+    background-color: whitesmoke;
+}
+
+input{
+    width: 200px;
+    height: 40px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border: 1px solid gray;
+    padding-left: 20px;
+}
+#loginbtn{
+    width: 220px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: #6d31dc;
+    color: #ffffff;
+    font-size: 15px;
+}
+#loginbtn:hover{
+    font-size: 20px;
+    pointer-events: stroke;
+}
+
+body{
+    width: 90%;
+    height: 650px;
+    margin: auto;
+    margin-top: 10px;
+    padding: 3px;
+    background-image: radial-gradient(circle at top right, rgb(143, 21, 204), rgb(155, 177, 234), rgb(63, 41, 185));
+}
+/* CSS cho menu */
+.menu {
+    background-color: #5119e5;
+    color: white;
+    padding: 10px;
+    border-radius: 5px; /* Giảm độ cong của góc để trông tinh tế hơn */
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; /* Loại bỏ khoảng cách lề trái mặc định */
+}
+
+.menu li {
+    margin-bottom: 5px; /* Giảm khoảng cách giữa các mục menu */
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    display: block; /* Biến mỗi liên kết thành một khối hoàn chỉnh */
+    padding: 8px 10px; /* Khoảng cách giữa chữ và viền xung quanh mục menu */
+    transition: background-color 0.3s ease-in-out; /* Hiệu ứng màu nền khi hover */
+}
+
+.menu a:hover {
+    background-color: #724dff; /* Màu nền khi hover */
+    border-radius: 5px; /* Giảm độ cong của góc khi hover */
+}
+
+
+/* CSS cho bảng */
+.container-dashboard {
+    margin: 20px;
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/*Form add account*/
+#formAddAcc{
+    border: none;
+    background-color: inherit;
+    margin-left: 150px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+#accountID #email #fullName #phone #password{
+    width: 500px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+#addBtn {
+    background-color: #03ab18;
+    color: #fff;
+    border: none;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#addBtn:hover{
+    background-color: #119807;
+}
