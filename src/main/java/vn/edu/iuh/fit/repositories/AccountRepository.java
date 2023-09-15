@@ -30,7 +30,6 @@ public class AccountRepository {
                 String phone = resultSet.getString("phone");
                 Integer status = resultSet.getInt("status");
                 Account account = new Account(account_id, full_name, pass, mail, phone, status);
-                System.out.println(account.toString());
                 return Optional.of(account);
             }
 
@@ -69,5 +68,25 @@ public class AccountRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Optional<Account> findAccountByID(String id) throws SQLException, ClassNotFoundException {
+        Connection connection;
+        connection = ConnectDB.getInstance().getConnection();
+        String sql = "Select * from account where account_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            String account_id = resultSet.getString("account_id");
+            String full_name = resultSet.getString("full_name");
+            String pass = resultSet.getString("password");
+            String mail = resultSet.getString("email");
+            String phone = resultSet.getString("phone");
+            Integer status = resultSet.getInt("status");
+            Account account = new Account(account_id, full_name, pass, mail, phone, status);
+            return Optional.of(account);
+        }
+        return Optional.empty();
     }
 }

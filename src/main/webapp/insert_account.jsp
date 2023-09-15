@@ -14,11 +14,14 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-
+<%
+    Account acc = (Account) session.getAttribute("accountLogin");
+%>
+<h3 style="font-family: SansSerif,sans-serif; margin: 0 auto">Welcome: <%= acc.getFull_name() %> </h3>
 <!-- Menu -->
 <div class="menu">
     <ul>
-        <li><a href="dashboard.jsp">Information Account</a></li>
+        <li><a href="login?action=info" methods="get">Information Account</a></li>
         <li><a href="#">List role</a></li>
         <li><a href="#">Grant Access</a></li>
         <li><a href="index.jsp">Log out</a></li>
