@@ -66,6 +66,35 @@ public class ControllerServlet extends HttpServlet {
                 }
                 break;
 
+            case "updateAccount":
+                try {
+                    Boolean rsu = false;
+                    Account newAcc = new Account();
+                    newAcc.setAccount_id(req.getParameter("accountID"));
+                    newAcc.setFull_name(req.getParameter("fullName"));
+                    newAcc.setPassword(req.getParameter("password"));
+                    newAcc.setEmail(req.getParameter("email"));
+                    newAcc.setPhone(req.getParameter("phone"));
+                    rsu = accountRepository.updateAccount(newAcc);
+                    if(rsu){
+                        PrintWriter out = resp.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Update Successfully');");
+                        resp.sendRedirect("login?action=listAllAccount");
+                        out.println("</script>");
+                    }else {
+                        PrintWriter out = resp.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Failed');");
+                        resp.sendRedirect("login?action=update");
+                        out.println("</script>");
+                    }
+
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+
         }
 
     }
@@ -100,6 +129,29 @@ public class ControllerServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 req.getRequestDispatcher("/list_account.jsp").forward(req,resp);
+                break;
+            case "delete":
+                String id = req.getParameter("id");
+                try {
+                    if(accountRepository.deleteAccountByID(id)){
+                        PrintWriter out = resp.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Xóa thành công');");
+                        out.println("</script>");
+                    }
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                resp.sendRedirect("login?action=listAllAccount");
+                break;
+            case "update":
+                try {
+                    Account accountUpdate = accountRepository.findAccountByID(req.getParameter("id")).get();
+                    req.setAttribute("accountUpdate",accountUpdate);
+                    req.getRequestDispatcher("/update_account.jsp").forward(req,resp);
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
         }
     }
