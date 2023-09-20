@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.edu.iuh.fit.models.Account;
+import vn.edu.iuh.fit.models.Grant;
+import vn.edu.iuh.fit.models.GrantAccess;
 import vn.edu.iuh.fit.models.Role;
 import vn.edu.iuh.fit.repositories.AccountRepository;
 import vn.edu.iuh.fit.repositories.GrantAccessRepository;
@@ -94,7 +96,57 @@ public class ControllerServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "grantRoleAccount":
+                Boolean kq = false;
+                GrantAccess new_grant = new GrantAccess();
+                String selectedRoleID = req.getParameter("roleSelect");
+                if (selectedRoleID == null || selectedRoleID.isEmpty()) {
+                    // Nếu không có tùy chọn role nào được chọn, gán mặc định là "user"
+                    new_grant.setRole("user");
+                } else {
+                    new_grant.setRole(selectedRoleID);
+                }
+                new_grant.setAccount(req.getParameter("accountID"));
 
+                // Kiểm tra nếu người dùng đã nhập ghi chú (noteRole) hoặc không
+                String noteRole = req.getParameter("noteRole");
+                if (noteRole == null || noteRole.isEmpty()) {
+                    // Nếu không có ghi chú nào được nhập, gán mặc định là giá trị cụ thể
+                    new_grant.setNote("User role ");
+                } else {
+                    new_grant.setNote(noteRole);
+                }
+                try {
+
+                    boolean isGrand = grantAccessRepository.isAccountGrand(req.getParameter("accountID"));
+
+                    if (isGrand) {
+                        new_grant.setGrant(Grant.enable);
+                        // Nếu tài khoản đã được grand, thực hiện truy vấn cập nhật
+                        kq = grantAccessRepository.updateGrantAccess(new_grant);
+                    } else {
+                        // Nếu tài khoản chưa được grand, thực hiện truy vấn thêm mới
+                        new_grant.setGrant(Grant.enable);
+                        kq = grantAccessRepository.addGrantAccess(new_grant);
+                    }
+                    if(kq){
+                        PrintWriter out = resp.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Grant Successfully');");
+                        out.println("location='list_account.jsp';");
+                        out.println("</script>");
+                    }else {
+                        PrintWriter out = resp.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Failed');");
+                        out.println("location='grant_access.jsp';");
+                        out.println("</script>");
+                    }
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                break;
         }
 
     }
@@ -153,6 +205,19 @@ public class ControllerServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "grantAccess":
+                try {
+                    Account accountGrant = accountRepository.findAccountByID(req.getParameter("id")).get();
+                    session.setAttribute("allRole", roleRepository.getAllRoles());
+                    req.setAttribute("accountGrant",accountGrant);
+                    req.getRequestDispatcher("/grant_access.jsp").forward(req,resp);
+
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                break;
+
         }
     }
 

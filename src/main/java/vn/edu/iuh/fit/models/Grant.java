@@ -10,7 +10,7 @@ public enum Grant {
         this.value = value;
     }
 
-    public int getGrantValue() {
+    public Integer getGrantValue() {
         return value;
     }
 }

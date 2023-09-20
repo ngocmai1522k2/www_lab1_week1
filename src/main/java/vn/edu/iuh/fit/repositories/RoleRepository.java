@@ -31,4 +31,24 @@ public class RoleRepository {
         return list;
     }
 
+    public ArrayList<Role> getAllRoles() throws SQLException, ClassNotFoundException {
+        Connection connection;
+        connection = ConnectDB.getInstance().getConnection();
+        ArrayList<Role> roles = new ArrayList<>();
+
+        String sql = "SELECT * FROM role";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ResultSet rs = preparedStatement.executeQuery();
+        while(rs.next()){
+            Role role = new Role();
+            role.setRole_id(rs.getString("role_id"));
+            role.setRole_name(rs.getString("role_name"));
+            role.setDescription(rs.getString("description"));
+            role.setStatus(rs.getInt("status"));
+            roles.add(role);
+        }
+        return roles;
+    }
+
+
 }

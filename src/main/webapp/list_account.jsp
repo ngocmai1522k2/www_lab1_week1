@@ -1,6 +1,7 @@
 <%@ page import="vn.edu.iuh.fit.models.Account" %>
 <%@ page import="vn.edu.iuh.fit.models.Role" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.iuh.fit.repositories.GrantAccessRepository" %><%--
   Created by IntelliJ IDEA.
   User: lethi
   Date: 9/15/2023
@@ -45,6 +46,7 @@
                     <th>Password</th>
                     <th>Phone</th>
                     <th>Status</th>
+                    <th>Role</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -55,15 +57,18 @@
                     for(Account account : listAccount){
                 %>
                 <tr>
+                    <% GrantAccessRepository grantAccessRepository= new GrantAccessRepository();
+                        String roleacc = grantAccessRepository.getRoleOfGrantAccessLoginById(account.getAccount_id()) ;%>
                     <td><%=account.getAccount_id()%></td>
                     <td><%=account.getFull_name()%></td>
                     <td><%=account.getEmail()%></td>
                     <td><%=account.getPassword()%></td>
                     <td><%=account.getPhone()%></td>
                     <td><%=account.getStatus()%></td>
+                    <td><%=roleacc%></td>
                     <td><a href="login?action=delete&id=<%=account.getAccount_id()%>">delete</a></td>
                     <td><a href="login?action=update&id=<%=account.getAccount_id()%>">update</a></td>
-                    <td><a href="login?action=grant&id=<%=account.getAccount_id()%>">access</a></td>
+                    <td><a href="login?action=grantAccess&id=<%=account.getAccount_id()%>">access</a></td>
                 </tr>
                 <%}%>
 

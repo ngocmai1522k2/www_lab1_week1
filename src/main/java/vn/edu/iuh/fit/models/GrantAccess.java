@@ -8,8 +8,8 @@ import jakarta.persistence.*;
 //  `is_grant` bit(1) NOT NULL DEFAULT b'1',
 //  `note` varchar(250) DEFAULT '',
 public class GrantAccess {
-    private Role role;
-    private Account account;
+    private String role;
+    private String account;
     private Grant grant;
     private String note;
 
@@ -17,7 +17,7 @@ public class GrantAccess {
         super();
     }
 
-    public GrantAccess(Role role, Account account, Grant grant, String note) {
+    public GrantAccess(String role, String account, Grant grant, String note) {
         this.role = role;
         this.account = account;
         this.grant = grant;
@@ -34,19 +34,19 @@ public class GrantAccess {
                 '}';
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
-    public Account getAccount() {
+    public String getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(String account) {
         this.account = account;
     }
 
